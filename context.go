@@ -93,7 +93,7 @@ func (c *context) InParamsLen() int {
 	return len(c.ins)
 }
 func (c *context) OutParam(idx int) interface{} {
-	if idx < 0 || idx >= len(c.ins) {
+	if idx < 0 || idx >= len(c.outs) {
 		panic("OutParam: out of range")
 	}
 
