@@ -8,7 +8,7 @@ a micro lib to provide aop for func
         en := enhance.New()
         en.Register("log1", logger1)
         en.Register("log2", logger2)
-        en.Enhance(fn, "log").(func())()
+        en.Enhance2(fn, "log1","log2").(func())()
     }
 
     func fn() {
@@ -41,7 +41,7 @@ output:
     func main() {
         en := enhance.New()
         en.Register("intercept", Intercept)
-        en.Enhance(fn, "intercept").(func())()
+        en.Enhance2(fn, "intercept").(func())()
     }
 
     func fn() {
@@ -62,7 +62,7 @@ output:
     func main() {
         en := enhance.New()
         en.Register("hook", hook)
-        en.Enhance(fn, "hook").(func(string))("Jim")
+        en.Enhance2(fn, "hook").(func(string))("Jim")
     }
 
     func fn(name string) {
@@ -81,7 +81,7 @@ output:
     func main() {
         en := enhance.New()
         en.Register("hook", hook)
-        ret := en.Enhance(fn, "hook").(func() string)()
+        ret := en.Enhance2(fn, "hook").(func() string)()
         fmt.Println(ret)
     }
 
