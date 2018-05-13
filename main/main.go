@@ -8,13 +8,15 @@ import (
 func main() {
 	en := enhance.New()
 	en.Register("hook", hook)
-	en.Enhance2(fn, "hook").(func(string))("Jim")
+	msg := en.Enhance(fn, "hook").(func(string) string)("Jim")
+	fmt.Println(msg)
 }
 
-func fn(name string) {
-	fmt.Printf("hello,%s\n", name)
+func fn(name string) string {
+	return fmt.Sprintf("hello,%s", name)
 }
 
 func hook(c enhance.Context) {
+
 	c.SetInParam(0, "everyone")
 }

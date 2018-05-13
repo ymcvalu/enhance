@@ -93,6 +93,9 @@ func (c *context) InParamsLen() int {
 	return len(c.ins)
 }
 func (c *context) OutParam(idx int) interface{} {
+	if c.outs == nil {
+		panic("the out params can't be access now")
+	}
 	if idx < 0 || idx >= len(c.outs) {
 		panic("OutParam: out of range")
 	}
@@ -101,6 +104,9 @@ func (c *context) OutParam(idx int) interface{} {
 }
 
 func (c *context) OutParams() []interface{} {
+	if c.outs == nil {
+		panic("the out params can't be access now")
+	}
 	outs := make([]interface{}, 0, len(c.outs))
 	for i := range c.outs {
 		outs = append(outs, c.outs[i].Interface())
@@ -108,10 +114,16 @@ func (c *context) OutParams() []interface{} {
 	return outs
 }
 func (c *context) OutParamsLen() int {
+	if c.outs == nil {
+		panic("the out params can't be access now")
+	}
 	return len(c.outs)
 
 }
 func (c *context) SetOutParam(idx int, out interface{}) {
+	if c.outs == nil {
+		panic("the out params can't be access now")
+	}
 	if idx < 0 || idx >= len(c.outs) {
 		panic("SetInParam: out of range")
 	}
@@ -131,6 +143,9 @@ func (c *context) SetOutParam(idx int, out interface{}) {
 	panic(fmt.Errorf("the type of param is :%s,and need :%s", typ.String(), outTyp.String()))
 }
 func (c *context) SetOutParams(outs []interface{}) {
+	if c.outs == nil {
+		panic("the out params can't be access now")
+	}
 	if len(outs) != len(c.outs) {
 		panic(fmt.Errorf("SetInParams:len of ins is %d,and need %d", len(outs), len(c.outs)))
 	}
@@ -148,4 +163,9 @@ func (c *context) Call() {
 }
 func (c *context) Abort() {
 	c.setFlag(abort)
+	fnTyp := c.fn.Type()
+	c.outs = make([]reflect.Value, 0, fnTyp.NumOut())
+	for i := 0; i < fnTyp.NumOut(); i++ {
+		c.outs = append(c.outs, reflect.Zero(fnTyp.Out(i)))
+	}
 }

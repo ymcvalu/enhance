@@ -30,10 +30,6 @@ func (e *Enhancer) Enhance2(fn interface{}, hooks ...string) interface{} {
 			hooks: _hooks,
 			ins:   params,
 		}
-		ctx.outs = make([]reflect.Value, 0, fnTyp.NumOut())
-		for i := 0; i < fnTyp.NumOut(); i++ {
-			ctx.outs = append(ctx.outs, reflect.Zero(fnTyp.Out(i)))
-		}
 		for ctx.idx <= len(ctx.hooks) {
 			ctx.Call()
 		}

@@ -54,12 +54,9 @@ func (e *Enhancer) Enhance(fn interface{}, hooks ...string) interface{} {
 
 func (e *Enhancer) enhance(fnVal reflect.Value, fnTyp reflect.Type, hook Hook) reflect.Value {
 	proxy := func(params []reflect.Value) []reflect.Value {
-		ctx := new(context)
-		ctx.fn = fnVal
-		ctx.ins = params
-		ctx.outs = make([]reflect.Value, 0, fnTyp.NumOut())
-		for i := 0; i < fnTyp.NumOut(); i++ {
-			ctx.outs = append(ctx.outs, reflect.Zero(fnTyp.Out(i)))
+		ctx := &context{
+			fn:  fnVal,
+			ins: params,
 		}
 		hook(ctx)
 		if !ctx.hasFlag(abort) && !ctx.hasFlag(executed) {
