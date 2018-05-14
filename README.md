@@ -1,5 +1,5 @@
 # Enhance
-a micro lib to provide aop for func
+a micro lib to decorate function
 
 # Example
 
