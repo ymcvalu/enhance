@@ -40,7 +40,7 @@ func main() {
 }
 
 func fileHandler(filepath string) {
-	if !strings.HasSuffix(".go") {
+	if !strings.HasSuffix(filepath, ".go") {
 		return
 	}
 	src, _ := ioutil.ReadFile(filepath)
