@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func main() {
@@ -39,6 +40,9 @@ func main() {
 }
 
 func fileHandler(filepath string) {
+	if !strings.HasSuffix(".go") {
+		return
+	}
 	src, _ := ioutil.ReadFile(filepath)
 	file := ParseFile("", src)
 	if len(file.Funs) > 0 {
